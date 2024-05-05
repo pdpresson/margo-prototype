@@ -1,0 +1,107 @@
+version: '3'
+
+services:
+  gogs:
+    container_name: gogs
+    restart: always
+    image: gogs/gogs:latest
+    ports:
+        - "3022:22"
+        - "3000:3000"
+    expose:
+      - "3000"
+    volumes:
+        - gogs_app:/data
+        - gogs_logs:/app/gogs/log
+    environment:
+        - "RUN_CROND=true"
+    networks:
+      - emp-network
+    depends_on:
+      - gogs-db
+
+  gogs-db:
+    container_name: gogs_db
+    image: postgres:latest
+    networks:
+      - emp-network
+    environment:
+        POSTGRES_DB: gogs
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        PGDATA: /var/lib/postgresql/data
+        POSTGRES_HOST: gogs-db
+        POSTGRES_PORT: 5432
+    volumes:
+        - db_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    expose:
+      - 5672
+    volumes:
+        - rabbitmq_data:/var/lib/rabbitmq
+        - rabbitmq_log:/var/log/rabbitmq
+    networks:
+        - emp-network
+
+  app-builder:
+    privileged: true
+    build:
+      context: ../
+      dockerfile: ./app_builder/.docker/dockerfile
+    tty: true
+    environment:
+      - EDGE_HOSTNAME=edgelocal
+      - WOS_HOSTNAME=woslocal
+      - KUBECONFIG=/.kube/merged_kubeconfig.yaml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../config/kubeconfig/merged_kubeconfig.yaml:/.kube/merged_kubeconfig.yaml
+      - ../src:/src
+    extra_hosts:
+      - "edgelocal:192.168.122.84"
+      - "woslocal:192.168.122.239"
+    networks:
+      - emp-network
+
+volumes:
+    gogs_app:
+      driver: local
+      driver_opts:
+          type: none
+          device: ./gogs/app
+          o: bind
+    gogs_logs:
+      driver: local 
+      driver_opts:
+        type: none
+        device: ./gogs/logs
+        o: bind
+    db_data:
+      driver: local
+      driver_opts:
+          type: none
+          device: ./gogs/db_data
+          o: bind
+    rabbitmq_data:
+      driver: local
+      driver_opts:
+          type: none
+          device: ./rabbitmq/data
+          o: bind
+    rabbitmq_log:
+      driver: local
+      driver_opts:
+          type: none
+          device: ./rabbitmq/log
+          o: bind
+  
+networks: 
+  emp-network:
+    driver: bridge

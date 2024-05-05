@@ -1,0 +1,6 @@
+apiVersion: v2
+name: workload-orchestration-portal
+description: A workload orchestration service web portal
+type: application
+version: 0.0.1
+appVersion: 0.0.1

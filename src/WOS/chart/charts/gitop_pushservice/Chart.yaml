@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gitops-pushservice
+description: The gitops-push service for pushing files into the device repository
+type: application
+version: 0.0.1
+appVersion: 0.0.1

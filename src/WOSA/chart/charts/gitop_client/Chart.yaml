@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gitops-client
+description: The gitops-client service for pulling files from the device repository
+type: application
+version: 0.0.1
+appVersion: 0.0.1

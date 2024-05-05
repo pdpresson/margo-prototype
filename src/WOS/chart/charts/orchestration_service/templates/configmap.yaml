@@ -1,0 +1,16 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "orchestration-service.fullname" . }}
+  labels:
+    {{- include "orchestration-service.labels" . | nindent 4 }}
+data:
+  ORCHESTRATION_ROOT_PATH: {{ .Values.ingress.path }}
+  ORCHESTRATION_SERVICE_PORT: :{{ .Values.service.port }}
+  DEVICE_REPO_HOSTNAME: {{ .Values.config.deviceRepo.hostname }}
+  DEVICE_REPO_USERNAME: {{ .Values.config.deviceRepo.username }}
+  DEVICE_REPO_PASSWORD: {{ .Values.config.deviceRepo.password }}
+  DEVICE_REPO_TOKEN_NAME: {{ .Values.config.deviceRepo.tokenName }}
+  DEVICE_REPO_TOKEN: {{ .Values.config.deviceRepo.tokenValue }}
+  MQ_ADDRESS: amqp://{{ .Values.config.rabbitMQ.username }}:{{ .Values.config.rabbitMQ.password }}@{{ .Release.Name }}-rabbitmq:5672

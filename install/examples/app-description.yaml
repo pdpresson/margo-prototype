@@ -1,0 +1,62 @@
+apiVersion: margo.org/v1-alpha1
+kind: ApplicationDescription
+metadata:
+  id: northstartida.hello.world
+  name: Hello World
+  description: A basic hello world application
+  version: 1.0
+  catalog:
+    application:
+      icon: ./resources/hw-logo.png
+      tagline: Northstar Industrial Application's hello world application.
+      descriptionLong: ./resources/description.md
+      releaseNotes: ./resources/release-notes.md
+      licenseFile: ./resources/license.pdf
+      site: http://www.northstar-ida.com
+    author:
+      name: Roger Wilkershank
+      email: rpwilkershank@northstar-ida.com
+    organization:
+      name: Northstar Industrial Applications
+      site: http://northstar-ida.com
+sources:
+   - name: hello-world
+     type: helm.v3
+     properties:  
+       repository: oci://ghcr.io/pdpresson/charts/hello-world
+       revision: 0.0.1
+       wait: true
+minimumResourceRequirements:
+  cpu: 0.5
+  memory: 16384
+  storage:
+    containers: 3788.8
+    appStorage: 20480
+properties:
+  greeting:
+    value: Hello
+    targets:
+    - pointer: /hello-world/env/APP_GREETING
+  target:
+    value: World
+    targets:
+    - pointer: /hello-world/env/APP_TARGET
+configuration:
+  sections:
+    - name: General Settings
+      settings:
+        - property: greeting
+          name: Greeting
+          description: The greeting to use.
+          inputType: text
+          schema: requireText
+        - property: target
+          name: Greeting Target
+          description: The target of the greeting.
+          inputType: text
+          schema: requireText
+  schema:
+    - name: requireText
+      appliesTo: text
+      maxLength: 45
+      allowEmpty: false

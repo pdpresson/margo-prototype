@@ -1,0 +1,23 @@
+<head>
+    <style>
+    div.app {
+        border: 1px solid black;
+        padding: 2px 10px 2px 10px;
+        width:20%;
+    }
+    </style>
+    {{template "nav"}}
+
+    <h1>App Catalog</h1>
+
+    {{range .Apps}}
+    <div class="app">
+        <a href="{{.Metadata.Catalog.Organization.Site}}">{{.Metadata.Catalog.Organization.Name}}</a><br/>
+        <a href="{{.Metadata.Catalog.Application.Site}}">{{.Metadata.Name}} (version: {{.Metadata.Version}})</a><br/>
+        <b>{{.Metadata.Catalog.Application.Tagline}}</b></br>
+        <p>{{.Metadata.Description}}</p>
+        
+        <input type="button" value="install" onclick="window.location.assign('/orchestration-portal/appcatalog/{{.ID}}/install')"/>
+    </div>
+    {{ end }}
+</head>

@@ -1,0 +1,15 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "gitops-client.fullname" . }}
+  labels:
+    {{- include "gitops-client.labels" . | nindent 4 }}
+data:
+  DEVICE_REPO_ROOT_PATH: {{ .Values.config.deviceRepo.rootPath }}
+  DEVICE_CURRENT_STATE_ROOT_PATH: {{ .Values.config.currentStateRootPath }}
+  DEVICE_REPO_URL: {{ .Values.config.deviceRepo.repoUrl }}
+  DEVICE_REPO_BRANCH: {{ .Values.config.deviceRepo.branch }}
+  POLL_FREQUENCY: {{ .Values.config.deviceRepo.pollFrequency | toString | quote }}
+  DEVICE_ID: {{ .Values.config.deviceId }}
+  IN_CLUSTER: 'true'

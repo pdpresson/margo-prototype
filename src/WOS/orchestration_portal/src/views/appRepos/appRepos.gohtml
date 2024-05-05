@@ -1,0 +1,53 @@
+<head>
+
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+td, td {
+    padding: 2px 10px 2px 10px
+}
+</style>
+    
+    {{template "nav"}}
+
+    <h1>App Repositories</h1>
+
+    <h3>Add New Application Repository</h3>
+    <form method="POST">
+        <label>Repository URL:</label><br />
+        <input type="text" name="url"><br />
+        <label>Branch:</label><br />
+        <input type="text" name="branch"><br />
+        <input type="submit">
+    </form>
+
+    <h3>Registered Application Repositories<h3>
+    <table>
+        <tr>
+            <th>Url</th>
+            <th>Branch</th>
+            <th></th>
+
+        </tr>
+        {{range .AppRepos}}
+        <tr>
+            <td>{{.Url}}</td>
+            <td>{{.Branch}}</td>
+            <td><button onclick="deleteRow({{.ID}})">Delete</button></td>
+        </tr>
+        {{end}}
+    </table>
+
+    <script>
+    function deleteRow(id) {
+			fetch('/orchestration-portal/apprepos/' + id, {
+				method: 'DELETE',
+			}).then((response) => {
+                location.reload();
+            })
+		}
+    </script>
+
+
+</head>

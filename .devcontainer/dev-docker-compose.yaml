@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  emp-dev:
+    build:
+      context: ../
+      dockerfile: ./.devcontainer/dev.dockerfile
+    container_name: emp-dev
+    ports:
+      - 8180:8180
+    environment:
+      - REPO_ROOT_PATH=/home/vscode/workpaces/emp/repos
+      - DEVICE_CURRENT_STATE_ROOT_PATH=/home/vscode/workpaces/emp/currentState
+      - DEVICE_REPO_ROOT_PATH=/home/vscode/workpaces/emp/device_repos
+      - DEVICE_REPO_URL=http://gogs:3000/emp/6ab5d35a-f208-4439-8f3b-5c4efaeddd2b.git
+      - DEVICE_REPO_BRANCH=master
+      - DEVICE_ID=6ab5d35a-f208-4439-8f3b-5c4efaeddd2b
+      - ORCHESTRATION_SERVICE_PORT=:8080
+      - ORCHESTRATION_SERVICE_ADDRESS=http://localhost:8080/orchestration-service
+      - ORCHESTRATION_PORTAL_PORT=:8081
+      - MQ_ADDRESS=amqp://guest:guest@rabbitmq:5672/
+      - KUBECONFIG=/.kube/merged_kubeconfig.yaml
+      - EDGE_HOSTNAME=edgelocal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ..:/home/vscode/workpaces/emp/
+      - ../config/kubeconfig/merged_kubeconfig.yaml:/.kube/merged_kubeconfig.yaml
+    tty: true           # <- keeps container running
+    extra_hosts:
+      - "edgelocal:192.168.122.84"
+      - "edge.local:192.168.122.84"
+      - "woslocal:192.168.122.239"
+      - "wos.local:192.168.122.239"
+    networks:
+      - emp-network
+
+networks: 
+  emp-network:
+    driver: bridge

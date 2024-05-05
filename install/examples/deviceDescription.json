@@ -1,0 +1,39 @@
+{
+    "apiVersion": "core.oam.dev/v1",
+    "kind": "Device",
+	"id": "6ab5d35a-f208-4439-8f3b-5c4efaeddd2b",
+	"metadata": {
+		"name": "kubernetes virtual device",
+		"annotations":{
+			"margo.org/platform": "Kubernetes",
+			"margo.org/platform-version": "25.0.4",
+			"margo.org/vendor":"virutal",
+			"margo.org/model": "MZ24601",
+			"margo.org/serial-number": "48jeu3831",
+			"margo.org/cpu-architecture": "intel",
+			"margo.org/vcpus": 16,
+			"margo.org/memory": "64GB",
+			"margo.org/storage-capacity": "2TB"
+		}
+	},
+	"spec":{
+		"network-interfaces": [
+			{
+				"kind":"ethernet"
+			},
+			{
+				"kind":"wifi"
+			}
+		],
+		"periferals": {
+			"gpus": [
+				{
+                    "kind": "GPU",
+				    "brand": "NVIDIA",
+				    "model": "GeForce RTX 4080",
+				    "memory": "32GB"
+                }
+			]
+		}
+	}
+}

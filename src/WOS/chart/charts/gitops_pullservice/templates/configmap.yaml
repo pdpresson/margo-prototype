@@ -1,0 +1,12 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "gitops-pullservice.fullname" . }}
+  labels:
+    {{- include "gitops-pullservice.labels" . | nindent 4 }}
+data:
+  REPO_ROOT_PATH: {{ .Values.config.repoRootPath }}
+  APP_DESCRIPTION_FILE_NAME: {{ .Values.config.appDescriptionFileName }} 
+  ORCHESTRATION_SERVICE_ADDRESS: http://{{ .Release.Name }}-workload-orchestration-service:8080/orchestration-service
+

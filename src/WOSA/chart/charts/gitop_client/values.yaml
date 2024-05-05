@@ -1,0 +1,12 @@
+image:
+  repository: ghcr.io/pdpresson/apps/gitops_client
+  pullPolicy: Always
+
+config:
+  deviceId:
+  currentStateRootPath: currentstate
+  deviceRepo:
+    rootPath: devicerepo
+    repoUrl:
+    branch:
+    pollFrequency: 60

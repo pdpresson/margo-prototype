@@ -1,0 +1,20 @@
+FROM docker:cli
+
+WORKDIR /builder
+
+RUN apk update \
+    && apk upgrade --no-cache \
+    && apk add --no-cache --upgrade bash make curl openssl git
+
+RUN git config --global user.name "emp" \
+    && git config --global user.email "emp@email.com" \
+    && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
+    && chmod +x get_helm.sh \
+    && ./get_helm.sh
+    
+RUN curl -LO https://dl.k8s.io/release/v1.29.2/bin/linux/amd64/kubectl \ 
+    && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+RUN wget https://go.dev/dl/go1.21.8.linux-amd64.tar.gz \
+    &&  tar -C /usr/local -xzf go1.21.8.linux-amd64.tar.gz \
+    && echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bashrc

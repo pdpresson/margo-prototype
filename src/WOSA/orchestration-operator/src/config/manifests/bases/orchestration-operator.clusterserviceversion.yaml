@@ -1,0 +1,52 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Basic Install
+  name: orchestration-operator.v0.0.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - description: Instance is the Schema for the instances API
+      displayName: Instance
+      kind: Instance
+      name: instances.solution.symphony
+      version: v1
+    - description: Solution is the Schema for the solutions API
+      displayName: Solution
+      kind: Solution
+      name: solutions.solution.symphony
+      version: v1
+  description: margo orchestration operator
+  displayName: orchestration-operator
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      deployments: null
+    strategy: ""
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - operator
+  links:
+  - name: Orchestration Operator
+    url: https://orchestration-operator.domain
+  maintainers:
+  - email: phil@email.com
+    name: phil
+  maturity: alpha
+  provider:
+    name: helm
+  version: 0.0.0

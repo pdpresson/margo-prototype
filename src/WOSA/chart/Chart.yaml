@@ -1,0 +1,13 @@
+apiVersion: v2
+name: ephemeral-workload-orchestration-agent
+description: The ephemeral workload orchestration agent
+type: application
+version: 0.0.1
+appVersion: 0.0.1
+dependencies:
+  - name: agent-operator
+    version: "*-0"
+    repository: file://charts/orchestration_operator
+  - name: gitops-client
+    version: "*-0"
+    repository: file://charts/gitops_client

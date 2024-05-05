@@ -19,3 +19,18 @@
 
 # Go workspace file
 go.work
+
+.docker/*/
+*.tgz
+
+currentState/*
+device_repos/*
+repos/*
+
+#Compiled go applications
+src/apps/hello-world/src/hello-world
+src/WOS/gitops_pullservice/src/gitops_pullservice
+src/WOS/gitops_pushservice/src/gitops_pushservice
+src/WOS/orchestration_portal/src/orchestration_portal
+src/WOS/orchestration_service/src/orchestration_service
+src/WOSA/gitops_client/src/gitops_client

@@ -1,0 +1,11 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "orchestration-portal.fullname" . }}
+  labels:
+    {{- include "orchestration-portal.labels" . | nindent 4 }}
+data:
+  ORCHESTRATION_PORTAL_ROOT_PATH: {{ .Values.ingress.path }}
+  ORCHESTRATION_PORTAL_PORT: :{{ .Values.service.port }} 
+  ORCHESTRATION_SERVICE_ADDRESS: http://{{ .Release.Name }}-workload-orchestration-service:8080/orchestration-service

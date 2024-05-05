@@ -1,0 +1,18 @@
+apiVersion: solution.symphony/v1
+kind: Solution
+metadata:
+    name: hello-world-solution
+    namespace: my-hello-world
+spec:
+    components:
+        - name: hello-world
+          type: helm.v3
+          properties:
+            helm.chart.name: hello-world
+            helm.chart.version: 0.0.1
+            helm.chart.repo: oci://ghcr.io/pdpresson/charts/hello-world
+            helm.chart.wait: true
+            helm.values:
+                env:
+                    APP_GREETING: Hello
+                    APP_TARGET: World!

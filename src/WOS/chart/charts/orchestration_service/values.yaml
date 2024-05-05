@@ -1,0 +1,22 @@
+image:
+  repository: ghcr.io/pdpresson/apps/orchestration_service
+  pullPolicy: Always
+
+service:
+  port: 8080
+
+ingress:
+  path: /orchestration-service
+  hostname:
+
+config:
+  rabbitMQ:
+    username:
+    password:
+  deviceRepo:
+    hostname: http://gogs:3000
+    username: emp
+    password: emp
+    tokenName: wos
+    tokenValue: 09ac6e6baabe5f3b2ea83c5d2356390db60ef448
+    hostAliases:

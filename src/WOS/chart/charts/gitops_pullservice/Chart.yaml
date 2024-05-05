@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gitops-pullservice
+description: The gitops-pull service for pulling apps into the workload orchestration service
+type: application
+version: 0.0.1
+appVersion: 0.0.1

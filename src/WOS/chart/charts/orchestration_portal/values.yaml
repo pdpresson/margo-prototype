@@ -1,0 +1,10 @@
+image:
+  repository: ghcr.io/pdpresson/apps/orchestration_portal
+  pullPolicy: Always
+
+service:
+  port: 8080
+
+ingress:
+  path: /orchestration-portal
+  hostname:

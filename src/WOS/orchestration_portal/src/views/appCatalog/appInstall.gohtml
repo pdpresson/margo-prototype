@@ -1,0 +1,39 @@
+<head>
+
+    {{template "nav"}}
+    <h1>Install Application</h1>
+        <div>{{.Name}} (version: {{.Version}})</div>
+        <form method="POST">
+            <input type="hidden" name="appid" value="{{.ID}}"/>
+            <table>
+                {{ range .Sections}}
+                <tr>
+                    <td colspan="2"><b>{{ .Name }}</b></td>
+                </tr>
+                {{ range .Properties}}
+                <tr>
+                    <td>{{ .Name}}</td>
+                    <td><input type="text" name="{{.Property}}"/></td>    
+                </tr>
+                {{ end }}
+                {{ end }}
+                <tr>
+                    <td>
+                        <label for="devices">Choose a target device:</label>
+                    </td>
+                    <td>
+                        <select name="devices" id="devices">
+                            {{range .Devices}}
+                            <option value="{{.ID}}">{{.Metadata.Name}}</option>
+                            {{ end }}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</head>

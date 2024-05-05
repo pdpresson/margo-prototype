@@ -1,0 +1,11 @@
+gitops-client:
+  config:
+    deviceId: 6ab5d35a-f208-4439-8f3b-5c4efaeddd2b
+    deviceRepo:
+      repoUrl:
+      branch:
+      pollFrequency: 30
+      hostAlias:
+      - ip: "192.168.1.50"
+        hostnames:
+          - "gogs"

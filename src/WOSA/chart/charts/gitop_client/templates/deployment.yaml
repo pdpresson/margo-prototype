@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "gitops-client.fullname" . }}
+  labels:
+    {{- include "gitops-client.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "gitops-client.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gitops-client.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "gitops-client.fullname" . }}
+      {{- if .Values.config.deviceRepo.hostAlias }}
+      {{- print "hostAliases:" | nindent 6 }}
+        {{- range $k, $v := .Values.config.deviceRepo.hostAlias }}
+        - ip: {{ $v.ip }}
+          hostnames:
+            {{- range $_, $h := $v.hostnames }}
+            - {{ $h}}
+            {{- end}}
+        {{- end }}
+      {{- end }}
+      serviceAccountName: {{ include "chart.fullname" . }}-controller-manager

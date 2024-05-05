@@ -1,0 +1,13 @@
+image:
+  repository: ghcr.io/pdpresson/apps/gitops_pushservice
+  pullPolicy: Always
+
+config:
+  rabbitMQ:
+    username:
+    password:
+  deviceRepo:
+    rootPath:
+    username:
+    password:
+    hostAliases:

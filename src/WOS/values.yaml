@@ -1,0 +1,53 @@
+
+#rabbitmq credentials 
+rabbitmq: 
+  auth:
+    username: &mqUsername emp
+    password: &mqPassword emp
+    securePassword: false
+
+workload-orchestration-service:
+  ingress:
+    hostname: &hostname wos.local
+  config:
+    rabbitMQ:
+      username: *mqUsername
+      password: *mqPassword
+    deviceRepo:
+      hostname: http://gogs:3000
+      username: &deviceRepoUsername emp
+      password: &deviceRepoPassword emp
+      tokenName: wos
+      tokenValue: 09ac6e6baabe5f3b2ea83c5d2356390db60ef448
+      hostAliases:
+        - ip: "192.168.1.50"
+          hostnames:
+            - "gogs"
+
+workload-orchestration-portal:
+  ingress:
+    hostname: *hostname
+
+gitops-pullservice:
+  config:
+   repoRootPath: ./app-repos
+   appDescriptionFileName: margo-app.json
+  gitRepos:
+    hostAliases:
+      - ip: "192.168.1.50"
+        hostnames:
+          - "gogs"
+
+gitops-pushservice:
+  config:
+    rabbitMQ:
+      username: *mqUsername
+      password: *mqPassword
+    deviceRepo:
+      rootPath: ./device-repos
+      username: *deviceRepoUsername
+      password: *deviceRepoPassword
+      hostAlias:
+        - ip: "192.168.1.50"
+          hostnames:
+            - "gogs"

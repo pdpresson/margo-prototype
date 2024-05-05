@@ -1,0 +1,15 @@
+FROM golang:1.21.8-alpine AS build
+
+WORKDIR /src
+COPY ./src/go.mod ./
+RUN go mod download
+ 
+COPY ./src/ ./
+ 
+# Build the executable
+RUN CGO_ENABLED=0 go build -installsuffix 'static' -o /app .
+ 
+FROM scratch AS final
+COPY --from=build /app /app
+EXPOSE 9080
+ENTRYPOINT ["/app"]

@@ -1,0 +1,13 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "gitops-pushservice.fullname" . }}
+  labels:
+    {{- include "gitops-pushservice.labels" . | nindent 4 }}
+data:
+  REPO_ROOT_PATH: {{ .Values.config.deviceRepo.rootPath }}
+  ORCHESTRATION_SERVICE_ADDRESS: http://{{ .Release.Name }}-workload-orchestration-service:8080/orchestration-service
+  DEVICE_REPO_USERNAME: {{ .Values.config.deviceRepo.username }}
+  DEVICE_REPO_PASSWORD: {{ .Values.config.deviceRepo.password }}
+  MQ_ADDRESS: amqp://{{ .Values.config.rabbitMQ.username }}:{{ .Values.config.rabbitMQ.password }}@{{ .Release.Name }}-rabbitmq:5672

@@ -1,0 +1,11 @@
+apiVersion: solution.symphony/v1
+kind: Instance
+metadata:
+    name: hello-world-instance
+    namespace: my-hello-world
+spec:
+    name: hello-world
+    scope: my-hello-world
+    solution: hello-world-solution
+    target:
+        name: unknow-target

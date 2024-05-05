@@ -1,0 +1,22 @@
+apiVersion: v2
+name: ephemeral-workload-orchestration
+description: The ephemeral workload orchestration solution
+type: application
+version: 0.0.1
+appVersion: 0.0.1
+dependencies:
+  - name: rabbitmq
+    version: "3.12.13"
+    repository: file://charts/rabbitmq
+  - name: workload-orchestration-service
+    version: "*-0"
+    repository: file://charts/orchestration_service
+  - name: workload-orchestration-portal
+    version: "*-0"
+    repository: file://charts/orchestration_portal
+  - name: gitops-pullservice
+    version: "*-0"
+    repository: file://charts/gitops_pullservice
+  - name: gitops-pushservice
+    version: "*-0"
+    repository: file://charts/gitops_pushservice

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "orchestration-service.fullname" . }}
+  labels:
+    {{- include "orchestration-service.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "orchestration-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "orchestration-service.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "orchestration-service.fullname" . }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+      {{- if .Values.config.deviceRepo.hostAliases }}
+      {{- print "hostAliases:" | nindent 6 }}
+        {{- range $k, $v := .Values.config.deviceRepo.hostAliases }}
+        - ip: {{ $v.ip }}
+          hostnames:
+            {{- range $_, $h := $v.hostnames }}
+            - {{ $h}}
+            {{- end}}
+        {{- end }}
+      {{- end }}
